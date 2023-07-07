@@ -8,24 +8,24 @@ import android.view.View
 import android.view.ViewGroup
 import kg.daveem.onlinestore.R
 
-class ProductsListFragment : Fragment() {
+class ProductCategoryFragment : Fragment() {
 
     companion object {
-        fun newInstance() = ProductsListFragment()
+        fun newInstance() = ProductCategoryFragment()
     }
 
-    private lateinit var viewModel: ProductsListViewModel
+    private lateinit var viewModel: ProductCategoryViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_products_list, container, false)
+        return inflater.inflate(R.layout.fragment_product_category, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(ProductsListViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(ProductCategoryViewModel::class.java)
         // TODO: Use the ViewModel
     }
 
