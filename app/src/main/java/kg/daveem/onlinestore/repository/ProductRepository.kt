@@ -9,6 +9,10 @@ object ProductRepository {
     private val apiService: RestApiInterface
         get() = RestApiInterface()
 
+    suspend fun getCategories(): Response<List<String>> {
+        return apiService.getCategories()
+    }
+
     suspend fun getProductListByCategory(category: String): Response<List<Product>> {
         return apiService.getProductsByCategory(categoryId = category)
     }

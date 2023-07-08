@@ -7,4 +7,6 @@
     <string name="buy_now">Buy Now</string>
     <string name="description">Description:</string>
     <string name="category">Category:</string>
+    <string name="categories">Categories</string>
+    <string name="please_check_your_internet_connection">Please check your internet connection\n</string>
 </resources>

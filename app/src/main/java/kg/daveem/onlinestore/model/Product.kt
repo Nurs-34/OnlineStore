@@ -8,27 +8,29 @@ import com.google.gson.annotations.SerializedName
 
 @Entity(tableName = "products")
 data class Product(
-    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+    @PrimaryKey(autoGenerate = true) var id: Int = 0,
     @ColumnInfo(name = "idProduct")
     @SerializedName("id")
-    val idProduct: Int,
+    var idProduct: Int,
     @ColumnInfo(name = "title")
-    val title: String,
+    var title: String,
     @ColumnInfo(name = "price")
-    val price: Double,
+    var price: Double,
     @ColumnInfo(name = "description")
-    val description: String,
+    var description: String,
     @ColumnInfo(name = "category")
-    val category: String,
+    var category: String,
     @ColumnInfo(name = "image")
-    val image: String,
+    var image: String,
     @Ignore
-    val rating: Rating
+    var rating: Rating
 ) {
+    constructor() : this(0, 0, "", 0.0, "", "", "", Rating(0.0, 0))
+
     data class Rating(
         @ColumnInfo(name = "rating")
-        val rating: Double,
+        var rating: Double,
         @Ignore
-        val count: Int
+        var count: Int
     )
 }
