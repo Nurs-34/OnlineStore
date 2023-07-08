@@ -1,6 +1,5 @@
 package kg.daveem.onlinestore.repository
 
-import kg.daveem.onlinestore.model.Category
 import kg.daveem.onlinestore.model.Product
 import kg.daveem.onlinestore.utils.network.RestApiInterface
 import retrofit2.Response
