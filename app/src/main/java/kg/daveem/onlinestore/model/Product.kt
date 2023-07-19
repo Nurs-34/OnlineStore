@@ -1,6 +1,7 @@
 package kg.daveem.onlinestore.model
 
 import androidx.room.ColumnInfo
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
@@ -22,7 +23,7 @@ data class Product(
     var category: String,
     @ColumnInfo(name = "image")
     var image: String,
-    @Ignore
+    @Embedded
     var rating: Rating
 ) {
     constructor() : this(0, 0, "", 0.0, "", "", "", Rating(0.0, 0))
@@ -32,5 +33,8 @@ data class Product(
         var rating: Double,
         @Ignore
         var count: Int
-    )
+    ) {
+        constructor() : this(0.0, 0)
+    }
+
 }

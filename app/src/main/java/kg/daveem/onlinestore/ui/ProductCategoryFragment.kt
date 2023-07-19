@@ -11,6 +11,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import kg.daveem.onlinestore.R
+import kg.daveem.onlinestore.adapters.ProductCategoryAdapter
 import kg.daveem.onlinestore.databinding.FragmentProductCategoryBinding
 import kg.daveem.onlinestore.db.AppDatabase
 import kg.daveem.onlinestore.db.dao.ProductDao
@@ -20,17 +21,19 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ProductCategoryFragment : Fragment() {
 
     private var _binding: FragmentProductCategoryBinding? = null
     private val binding get() = _binding!!
+    private lateinit var adapter: ProductCategoryAdapter
 
     companion object {
         fun newInstance() = ProductCategoryFragment()
     }
 
-    private lateinit var viewModel: ProductCategoryViewModel
+    private val viewModel: ProductCategoryViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,28 +46,39 @@ class ProductCategoryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProvider(this)[ProductCategoryViewModel::class.java]
+        val db = AppDatabase.getInstance(requireContext().applicationContext)
+        val productDao = db.productDao()
 
         (activity as AppCompatActivity).supportActionBar?.title =
             requireActivity().getString(R.string.categories)
+        //не работает
+
+        lifecycleScope.launch{
+            viewModel.loadCategories()
+
+
+        }
+
+        adapter = ProductCategoryAdapter(
+            emptyList()
+        ) {
+
+        }
+        lifecycleScope.launch {
+            val categories = withContext(Dispatchers.IO) {
+                productDao.getAllCategories()
+            }
+            adapter.updateList(categories)
+        }
+
+        binding.recyclerViewCategories.adapter = adapter
+
 
         val backPressedCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 Toast.makeText(requireActivity(), "Lol", Toast.LENGTH_LONG).show()
             }
         }
-
-        val db = AppDatabase.getInstance(requireContext().applicationContext)
-        val productDao = db.productDao()
-
-        var category = Category(category = "sss")
-
-        lifecycleScope.launch {
-            withContext(Dispatchers.IO){
-                productDao.insertCategory(category)
-            }
-        }
-
 
         requireActivity().onBackPressedDispatcher.addCallback(
             viewLifecycleOwner,
@@ -82,9 +96,8 @@ class ProductCategoryFragment : Fragment() {
         }.launchIn(lifecycleScope)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this)[ProductCategoryViewModel::class.java]
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
-
 }

@@ -10,12 +10,15 @@ import kg.daveem.onlinestore.model.Product
 interface ProductDao {
 
     @Insert
-    fun insertCategory(category: Category)
+    suspend fun insertCategory(category: Category)
 
     @Insert
-    fun insertProduct(product: Product)
+    suspend fun insertProduct(product: Product)
+
+    @Query("SELECT * FROM categories")
+    suspend fun getAllCategories(): List<Category>
 
     @Query("SELECT * FROM products WHERE category = :category")
-    fun getAllProductsByCategory(category: String): List<Product>
+    suspend fun getAllProductsByCategory(category: String): List<Product>
 
 }
