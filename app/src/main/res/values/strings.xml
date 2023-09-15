@@ -9,4 +9,6 @@
     <string name="category">Category:</string>
     <string name="categories">Categories</string>
     <string name="please_check_your_internet_connection">Please check your internet connection\n</string>
+    <string name="higher_price">Higher price</string>
+    <string name="lower_price">Lower price</string>
 </resources>

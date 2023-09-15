@@ -15,9 +15,12 @@ interface RestApiInterface {
     @GET("/products/categories")
     suspend fun getCategories(): Response<List<String>>
 
-    @GET("/products/category/{categoryId}")
+    @GET("/products")
+    suspend fun getProducts(): Response<List<Product>>
+
+    @GET("/products/category/{category}")
     suspend fun getProductsByCategory(
-        @Path("categoryId") categoryId: String
+        @Path("category") category: String
     ): Response<List<Product>>
 
     @GET("/products/category/{categoryId}")
@@ -30,7 +33,6 @@ interface RestApiInterface {
     suspend fun getProduct(
         @Path("id") productId: Int
     ): Response<Product>
-
 
 
     companion object {

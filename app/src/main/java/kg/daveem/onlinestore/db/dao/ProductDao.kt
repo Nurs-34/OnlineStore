@@ -21,4 +21,7 @@ interface ProductDao {
     @Query("SELECT * FROM products WHERE category = :category")
     suspend fun getAllProductsByCategory(category: String): List<Product>
 
+    @Query("SELECT * FROM products WHERE idProduct = :id")
+    suspend fun getProductById(id: Int): Product
+
 }

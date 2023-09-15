@@ -2,8 +2,9 @@ package kg.daveem.onlinestore.di
 
 import android.app.Application
 import kg.daveem.onlinestore.db.AppDatabase
-import kg.daveem.onlinestore.db.dao.ProductDao
 import kg.daveem.onlinestore.ui.ProductCategoryViewModel
+import kg.daveem.onlinestore.ui.ProductDetailViewModel
+import kg.daveem.onlinestore.ui.ProductListViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.startKoin
@@ -15,16 +16,16 @@ class AppModule : Application() {
         super.onCreate()
 
         val appModule = module {
-            single { AppDatabase.getInstance(androidContext().applicationContext).productDao() }
+            factory { AppDatabase.getInstance(androidContext().applicationContext).productDao() }
 
             viewModel { ProductCategoryViewModel(get()) }
+            viewModel { ProductListViewModel(get()) }
+            viewModel { ProductDetailViewModel(get()) }
         }
 
         startKoin {
             androidContext(this@AppModule)
             modules(appModule)
         }
-
-
     }
 }

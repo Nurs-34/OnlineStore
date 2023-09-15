@@ -5,11 +5,13 @@ import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
+import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
 @Entity(tableName = "products")
 data class Product(
-    @PrimaryKey(autoGenerate = true) var id: Int = 0,
+    @Expose(deserialize = false, serialize = false)
+    @PrimaryKey(autoGenerate = true) var idKey: Int = 0,
     @ColumnInfo(name = "idProduct")
     @SerializedName("id")
     var idProduct: Int,
@@ -26,11 +28,10 @@ data class Product(
     @Embedded
     var rating: Rating
 ) {
-    constructor() : this(0, 0, "", 0.0, "", "", "", Rating(0.0, 0))
 
     data class Rating(
         @ColumnInfo(name = "rating")
-        var rating: Double,
+        var rate: Double,
         @Ignore
         var count: Int
     ) {

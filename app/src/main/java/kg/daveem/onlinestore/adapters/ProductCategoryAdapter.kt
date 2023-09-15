@@ -1,5 +1,6 @@
 package kg.daveem.onlinestore.adapters
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
@@ -16,7 +17,8 @@ class ProductCategoryAdapter(
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = ProductCategoryItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            ProductCategoryItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 
@@ -29,7 +31,8 @@ class ProductCategoryAdapter(
 
     override fun getItemCount(): Int = values.size
 
-    inner class ViewHolder(binding: ProductCategoryItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(binding: ProductCategoryItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         private val categoryName: TextView = binding.textViewCategory
         private val categoryAnimation: LottieAnimationView = binding.animationViewCategory
 
@@ -40,6 +43,7 @@ class ProductCategoryAdapter(
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun updateList(newList: List<Category>) {
         values = newList
         notifyDataSetChanged()

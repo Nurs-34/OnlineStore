@@ -14,10 +14,10 @@
         android:orientation="vertical">
 
         <TextView
+            style="@style/CategoriesTextStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/product_categories"
-            style="@style/CategoriesTextStyle"/>
+            android:text="@string/product_categories" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_categories"

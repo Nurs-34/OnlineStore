@@ -11,7 +11,7 @@
         android:label="fragment_product_category"
         tools:layout="@layout/fragment_product_category" >
         <action
-            android:id="@+id/action_productCategoryFragment_to_productListFragment3"
+            android:id="@+id/navigate_to_product_list"
             app:destination="@id/productListFragment" />
     </fragment>
     <fragment
@@ -20,8 +20,12 @@
         android:label="fragment_product_list"
         tools:layout="@layout/fragment_product_list" >
         <action
-            android:id="@+id/action_productListFragment_to_productDetailFragment"
+            android:id="@+id/navigate_to_product_detail"
             app:destination="@id/productDetailFragment" />
+        <argument
+            android:name="category"
+            app:argType="string"
+            android:defaultValue="none" />
     </fragment>
     <fragment
         android:id="@+id/productDetailFragment"

@@ -8,7 +8,7 @@ import kg.daveem.onlinestore.db.dao.ProductDao
 import kg.daveem.onlinestore.model.Category
 import kg.daveem.onlinestore.model.Product
 
-@Database(entities = [Category::class, Product::class], version = 2)
+@Database(entities = [Category::class, Product::class], version = 5)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun productDao(): ProductDao

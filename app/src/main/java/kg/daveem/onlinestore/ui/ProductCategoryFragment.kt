@@ -1,21 +1,18 @@
 package kg.daveem.onlinestore.ui
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
-import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.Navigation
 import kg.daveem.onlinestore.R
 import kg.daveem.onlinestore.adapters.ProductCategoryAdapter
 import kg.daveem.onlinestore.databinding.FragmentProductCategoryBinding
 import kg.daveem.onlinestore.db.AppDatabase
-import kg.daveem.onlinestore.db.dao.ProductDao
-import kg.daveem.onlinestore.model.Category
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -28,10 +25,6 @@ class ProductCategoryFragment : Fragment() {
     private var _binding: FragmentProductCategoryBinding? = null
     private val binding get() = _binding!!
     private lateinit var adapter: ProductCategoryAdapter
-
-    companion object {
-        fun newInstance() = ProductCategoryFragment()
-    }
 
     private val viewModel: ProductCategoryViewModel by viewModel()
 
@@ -48,23 +41,20 @@ class ProductCategoryFragment : Fragment() {
 
         val db = AppDatabase.getInstance(requireContext().applicationContext)
         val productDao = db.productDao()
-
-        (activity as AppCompatActivity).supportActionBar?.title =
-            requireActivity().getString(R.string.categories)
-        //не работает
-
-        lifecycleScope.launch{
-            viewModel.loadCategories()
-
-
-        }
+        val lifecycleScope = viewLifecycleOwner.lifecycleScope
 
         adapter = ProductCategoryAdapter(
             emptyList()
         ) {
-
+            lifecycleScope.launch {
+                val categoryBundle = bundleOf("category" to it.category)
+                Navigation.findNavController(view)
+                    .navigate(R.id.navigate_to_product_list, categoryBundle)
+            }
         }
+
         lifecycleScope.launch {
+            viewModel.loadCategories()
             val categories = withContext(Dispatchers.IO) {
                 productDao.getAllCategories()
             }
@@ -72,18 +62,6 @@ class ProductCategoryFragment : Fragment() {
         }
 
         binding.recyclerViewCategories.adapter = adapter
-
-
-        val backPressedCallback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                Toast.makeText(requireActivity(), "Lol", Toast.LENGTH_LONG).show()
-            }
-        }
-
-        requireActivity().onBackPressedDispatcher.addCallback(
-            viewLifecycleOwner,
-            backPressedCallback
-        )
 
         viewModel.productCategoryActionFlow.onEach { action ->
             when (action) {

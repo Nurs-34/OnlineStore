@@ -13,8 +13,12 @@ object ProductRepository {
         return apiService.getCategories()
     }
 
-    suspend fun getProductListByCategory(category: String): Response<List<Product>> {
-        return apiService.getProductsByCategory(categoryId = category)
+    suspend fun getProducts(): Response<List<Product>> {
+        return apiService.getProducts()
+    }
+
+/*    suspend fun getProductListByCategory(category: String): Response<List<Product>> {
+        return apiService.getProductsByCategory(category = category)
     }
 
     suspend fun sortProducts(category: String, sort: String): Response<List<Product>> {
@@ -23,5 +27,5 @@ object ProductRepository {
 
     suspend fun getProduct(productId: Int): Response<Product> {
         return apiService.getProduct(productId = productId)
-    }
+    }*/
 }
